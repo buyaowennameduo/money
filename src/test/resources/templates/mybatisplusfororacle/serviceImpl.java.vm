@@ -1,0 +1,99 @@
+package ${package.ServiceImpl};
+
+import java.util.List;
+import javax.annotation.Resource;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import com.pcitc.hr.framework.utils.BeanUtils;
+import ${package.Entity}.${entity};
+import ${cfg.query}.${entity}Query;
+import ${cfg.vo}.${entity}Vo;
+import ${cfg.convert}.${entity}Convert;
+import ${package.Mapper}.${table.mapperName};
+import ${package.Service}.${table.serviceName};
+/**
+ * <p>
+ * $!{table.comment} 服务实现类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Service
+@Transactional
+public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
+
+    @Resource
+    private ${table.mapperName} ${table.entityPath}Mapper;
+
+
+
+    @Override
+    public ${entity}Vo selectById(String id) {
+        ${entity} ${table.entityPath} = ${table.entityPath}Mapper.selectById(id);
+        ${entity}Vo ${table.entityPath}Vo = ${entity}Convert.convertToVoByPo(${table.entityPath});
+        return ${table.entityPath}Vo;
+    }
+
+    @Override
+    public IPage<${entity}Vo> selectPage(${entity}Query ${table.entityPath}Query){
+        QueryWrapper<${entity}> queryWrapper=new QueryWrapper<${entity}>();
+        Page<${entity}> page = new Page<>(${table.entityPath}Query.getPage(), ${table.entityPath}Query.getLimit());
+        getQueryWrapper(queryWrapper, ${table.entityPath}Query);
+        IPage<${entity}> page${entity} = ${table.entityPath}Mapper.selectPage(page, queryWrapper);
+        IPage<${entity}Vo> pageResult = new Page<>();
+        pageResult.setRecords(${entity}Convert.convertToVoByPo(page${entity}.getRecords()));
+        pageResult.setCurrent(page${entity}.getCurrent());
+        pageResult.setSize(page${entity}.getSize());
+        pageResult.setTotal(page${entity}.getTotal());
+        pageResult.setPages(page${entity}.getPages());
+        return pageResult;
+    }
+
+    @Override
+    public List<${entity}Vo> selectList(${entity}Query ${table.entityPath}Query){
+        QueryWrapper<${entity}> queryWrapper=new QueryWrapper<${entity}>();
+        getQueryWrapper(queryWrapper, ${table.entityPath}Query);
+        List<${entity}> list = ${table.entityPath}Mapper.selectList(queryWrapper);
+        return ${entity}Convert.convertToVoByPo(list);
+    }
+
+
+    @Override
+    public <T> void doSetName(T t, Function<T, String> f, BiConsumer<T, String> c) {
+        String id = BeanUtils.get(f, t);
+       // ${entity} ${table.entityPath} = ${table.entityPath}Mapper.selectById(id);
+        //BeanUtils.set(role, Role::getRoleId, Role::getRoleName, t, f, c);
+    }
+
+    @Override
+    public <T> void doSetName(List<T> l, Function<T, String> f, BiConsumer<T, String> c) {
+        List<String> ids = BeanUtils.distinct(l, f);
+       // QueryWrapper<${entity}> queryWrapper=new QueryWrapper<${entity}>();
+        //queryWrapper.lambda().in(${entity}::getId, ids);
+        //List<${entity}> ${table.entityPath}s = ${table.entityPath}Mapper.selectList(queryWrapper);
+        //BeanUtils.set(${table.entityPath}s, ${entity}::getId, ${entity}::getName, l, f, c);
+    }
+
+    /**
+     *  公共查询条件
+     * @param queryWrapper
+     * @return
+     */
+    @Override
+    public QueryWrapper<${entity}> getQueryWrapper(QueryWrapper<${entity}> queryWrapper,${entity}Query ${table.entityPath}Query){
+        return queryWrapper;
+    }
+
+    /*******************通用方法结束**********************/
+
+}

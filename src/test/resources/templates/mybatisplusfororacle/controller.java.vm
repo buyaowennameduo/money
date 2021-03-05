@@ -1,0 +1,190 @@
+package ${package.Controller};
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Api;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.apache.commons.collections4.CollectionUtils;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
+
+import com.pcitc.hr.framework.poi.ExcelKit;
+import com.pcitc.hr.framework.poi.pojo.ExcelErrorField;
+import com.pcitc.hr.framework.poi.handler.ExcelReadHandler;
+import com.pcitc.hr.framework.model.ReturnModel;
+import com.pcitc.hr.framework.model.Code;
+import ${package.Service}.${table.serviceName};
+import ${package.Entity}.${entity};
+import ${cfg.vo}.${entity}Vo;
+import ${cfg.query}.${entity}Query;
+import ${cfg.convert}.${entity}Convert;
+
+/**
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@RestController
+@Api(value = "${package.ModuleName}-${entity}", tags = {"${package.ModuleName}-${entity}"})
+##@RequestMapping("#if(${package.ModuleName})/${package.ModuleName}#end/#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
+@RequestMapping("#if(${controllerMappingHyphenStyle})${controllerMappingHyphen}#else${table.entityPath}#end")
+#if(${superControllerClass})
+public class ${table.controllerName} extends ${superControllerClass} {
+#else
+public class ${table.controllerName} {
+#end
+
+    private final Logger logger=LoggerFactory.getLogger(${table.controllerName}.class);
+    @Resource
+    private ${table.serviceName} ${table.entityPath}Service;
+
+   #* /**
+    * 保存单条
+    * @param ${table.entityPath}Form 保存参数
+    * @return 是否添加成功
+    */
+    @ApiOperation(value = "保存数据", notes = "保存数据到${entity}")
+    @PostMapping(value = "/save", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ReturnModel save(@RequestBody ${entity}Form ${table.entityPath}Form) {
+        Integer result = ${table.entityPath}Service.save(${table.entityPath}Form);
+        return ReturnModel.newSuccessInstance(${table.entityPath}Form);
+    }
+
+    /**
+     * 删除(根据主键id删除)
+     * @param ${table.entityPath}Id 主键id
+     * @return 是否删除成功
+     */
+    @ApiOperation(value = "删除数据", notes = "根据主键id删除${entity}数据")
+    @PostMapping(value = "/deleteById", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ReturnModel deleteById(@RequestParam(required = true, value = "${table.entityPath}Id") String ${table.entityPath}Id) {
+        Integer result = ${table.entityPath}Service.deleteById(${table.entityPath}Id);
+        return ReturnModel.newSuccessInstance(result);
+    }
+
+    /**
+    * 更新(根据主键id更新)
+    * @param ${table.entityPath}Form 修改参数
+    * @return 是否更改成功
+    */
+    @ApiOperation(value = "更新数据", notes = "根据主键id更新${entity}数据")
+    @PostMapping(value = "/updateById", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ReturnModel updateById(@RequestBody ${entity}Form ${table.entityPath}Form) {
+        Integer result = ${table.entityPath}Service.updateById(${table.entityPath}Form);
+        return ReturnModel.newSuccessInstance(result);
+    }
+*#
+    /**
+    * 根据主键id查询单条
+    * @param ${table.entityPath}Id 主键id
+    * @return 查询结果
+    */
+    @ApiOperation(value = "获取单条数据", notes = "根据主键id获取${entity}数据")
+    @GetMapping(value = "/selectById", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ReturnModel selectById(@RequestParam(required = true, value = "${table.entityPath}Id") String ${table.entityPath}Id) {
+        ${entity}Vo result = ${table.entityPath}Service.selectById(${table.entityPath}Id);
+        return ReturnModel.newSuccessInstance(result);
+    }
+
+    /**
+     * 分页查询数据
+     * @param ${table.entityPath}Query 查询条件
+     * @return
+     */
+    @ApiOperation(value = "分页获取所有${table.entityPath}信息", notes = "获取所有${table.entityPath}信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "当前页码(page)", example = "1", dataType = "int", required = true),
+            @ApiImplicitParam(name = "limit", value = "每页展示条数(limit)", example = "10", dataType = "int", required = true)
+    })
+    @GetMapping(value = "/selectPage", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ReturnModel selectPage(${entity}Query ${table.entityPath}Query){
+        IPage<${entity}Vo> pageList=${table.entityPath}Service.selectPage(${table.entityPath}Query);
+        return ReturnModel.newSuccessInstance(pageList);
+    }
+
+
+    /**
+     * 查询数据集合
+     * @param ${table.entityPath}Query 查询条件
+     * @return
+     */
+    @ApiOperation(value = "获取所有${table.entityPath}信息", notes = "获取所有${table.entityPath}信息")
+    @GetMapping(value = "/selectList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ReturnModel selectList(${entity}Query ${table.entityPath}Query){
+        List<${entity}Vo> ${entity}List=${table.entityPath}Service.selectList(${table.entityPath}Query);
+        return ReturnModel.newSuccessInstance(${entity}List);
+    }
+
+
+
+
+
+
+  #*  /**
+     * 下载导入模板
+     * @return
+     */
+    @ApiOperation("下载导入模板")
+    @GetMapping(value = "downloadTemplate")
+    public void downloadTemplate(HttpServletResponse response) {
+        List<${entity}Import> ${table.entityPath}Imports = new ArrayList<>();
+        ExcelKit.$Export(${entity}Import.class, response).downXlsx(${table.entityPath}Imports, true);
+    }
+
+    /**
+     * 导入数据
+     * @return
+     */
+    @ApiOperation("导入数据")
+    @PostMapping(value = "importData")
+    public ReturnModel importData(@RequestParam(value = "file", required = true) MultipartFile file) throws IOException {
+        List<${entity}Import> successResult = Lists.newArrayList();
+        List<Map<String, Object>> errorResult = Lists.newArrayList();
+        ExcelKit.$Import(${entity}Import.class).readXlsx(file.getInputStream(), new ExcelReadHandler<${entity}Import>() {
+            @Override
+            public void onSuccess(int sheetIndex, int rowIndex, ${entity}Import entity) {
+                successResult.add(entity); // 单行读取成功，加入入库队列。
+            }
+
+            @Override
+            public void onError(int sheetIndex, int rowIndex, List<ExcelErrorField> errorFields) {
+                errorResult.add(ImmutableMap.of("sheetIndex", sheetIndex, "rowIndex", rowIndex, "errorFields", errorFields));
+            }
+        });
+        if (CollectionUtils.isNotEmpty(errorResult)) {
+            return ReturnModel.newFailureInstance(Code.$1501_DATA_CHECK_ERROR, errorResult, "导入文件失败");
+        }
+
+        List<${entity}> ${table.entityPath}s = ${entity}Convert.convertToPoByImport(successResult);
+        ${table.entityPath}Service.saveBatch(${table.entityPath}s);
+        return ReturnModel.newSuccessInstance(1);
+    }
+
+    /**
+     * 导出数据
+     * @return
+     */
+    @ApiOperation("导出信息")
+    @GetMapping(value = "exportData")
+    public void exportData(HttpServletResponse response, ${entity}Query ${table.entityPath}Query) {
+        List<${entity}Vo> ${table.entityPath}Vos = ${table.entityPath}Service.selectList(${table.entityPath}Query);
+
+        List<${entity}Export> ${table.entityPath}Exports = ${entity}Convert.convertToExportByVo(${table.entityPath}Vos);
+        ExcelKit.$Export(${entity}Export.class, response).downXlsx(${table.entityPath}Exports, false);
+    }*#
+
+    /*******************通用方法结束**********************/
+}

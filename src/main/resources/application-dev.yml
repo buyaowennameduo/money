@@ -1,0 +1,15 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    dynamic:
+      primary: master
+      druid:
+        wall:
+          multi-statement-allow: true
+      datasource:
+        master:
+          driverClassName: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://127.0.0.1/money?serverTimezone=Asia/Shanghai&allowMultiQueries=true
+          username: root
+          password: root

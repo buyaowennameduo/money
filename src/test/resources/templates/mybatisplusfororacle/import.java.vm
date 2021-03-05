@@ -1,0 +1,96 @@
+package ${cfg.dto};
+
+#foreach($pkg in ${table.importPackages})
+#end
+import lombok.*;
+import java.io.Serializable;
+import java.util.Date;
+import java.math.BigDecimal;
+
+#if(${swagger2})
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+#end
+#if(${entityLombokModel})
+#end
+
+import com.pcitc.hr.framework.poi.annotation.Excel;
+import com.pcitc.hr.framework.poi.annotation.ExcelField;
+/**
+ * <p>
+ * ${entity}Import对象
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if(${entityLombokModel})
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+    #if(${superEntityClass})
+    #else
+    #end
+#end
+#if(${swagger2})
+@ApiModel(value="${entity}对象", description="$!{table.comment}")
+@Excel("${entity}导入")
+#end
+#if(${superEntityClass})
+public class ${entity}Import extends ${superEntityClass}#if(${activeRecord})<${entity}>#end {
+#elseif(${activeRecord})
+public class ${entity}Import{
+#else
+public class ${entity}Import implements Serializable {
+#end
+
+    private static final long serialVersionUID = 1L;
+## ----------  BEGIN 字段循环遍历  ----------
+#foreach($field in ${table.fields})
+    #if(${field.keyFlag})
+        #set($keyPropertyName=${field.propertyName})
+    #end
+    #if("$!field.comment" != "")
+        #if(${swagger2})
+    @ApiModelProperty(value = "${field.comment}")
+    @ExcelField(value = "${field.comment}", required = true, comment = "请填写${field.comment}", width=150)
+        #else
+    /**
+     * ${field.comment}
+     */
+        #end
+    #else
+    @ExcelField(value = "XXX", required = true, comment = "请填写${field.comment}", width=150)
+    #end
+    private ${field.propertyType} ${field.propertyName};
+
+#end
+## ----------  END 字段循环遍历  ----------
+
+#if(!${entityLombokModel})
+    #foreach($field in ${table.fields})
+        #if(${field.propertyType.equals("boolean")})
+            #set($getprefix="is")
+        #else
+            #set($getprefix="get")
+        #end
+
+        public ${field.propertyType} ${getprefix}${field.capitalName}() {
+        return ${field.propertyName};
+    }
+
+        #if(${entityBuilderModel})
+        public ${entity} set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
+        #else
+            public void set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
+        #end
+        this.${field.propertyName} = ${field.propertyName};
+        #if(${entityBuilderModel})
+            return this;
+        #end
+    }
+    #end
+#end
+
+}

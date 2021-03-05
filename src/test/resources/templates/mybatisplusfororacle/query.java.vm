@@ -1,0 +1,33 @@
+package ${cfg.query};
+
+#if(${activeRecord})
+import java.io.Serializable;
+
+import lombok.*;
+import lombok.experimental.Accessors;
+#end
+
+/**
+ * <p>
+ * $!{table.comment}
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if(${entityLombokModel})
+@Data
+@Builder
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+#end
+public class ${entity}Query{
+
+    private Integer page;
+    private Integer limit;
+    @Builder.Default
+    private Integer delflag = 0;//删除标记
+    private String orderby;//排序字段
+    private String order;//asc,desc
+}

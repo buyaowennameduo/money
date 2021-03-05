@@ -1,0 +1,55 @@
+package ${cfg.convert};
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
+
+import ${package.Entity}.${entity};
+import ${cfg.vo}.${entity}Vo;
+/**
+ * <p>
+ * ${entity}Convert工具类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+
+public class ${entity}Convert{
+
+
+
+
+    /**
+    * PoList -> VoList
+    * @param sources 对象
+    * @return VO对象
+    */
+    public static  List<${entity}Vo> convertToVoByPo(List<${entity}> sources){
+        List<${entity}Vo> ${table.entityPath}s = new ArrayList<>();
+        if (CollectionUtils.isEmpty(sources)) {
+            return ${table.entityPath}s;
+        }
+        for (${entity} source : sources) {
+            ${entity}Vo target = new ${entity}Vo();
+            BeanUtils.copyProperties(source, target);
+            ${table.entityPath}s.add(target);
+        }
+        return ${table.entityPath}s;
+    }
+    /**
+    * Po -> Vo
+    * @param source 对象
+    * @return Do对象
+    */
+    public static ${entity}Vo convertToVoByPo(${entity} source){
+            ${entity}Vo target = new ${entity}Vo();
+        BeanUtils.copyProperties(source, target);
+        return target;
+    }
+
+
+
+}
