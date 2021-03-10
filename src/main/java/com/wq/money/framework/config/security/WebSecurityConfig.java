@@ -48,13 +48,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         log.info("-----------> sec配置 --> 权限校验方式:'{}'",checkSessionToken);
         httpSecurity.csrf().disable();
         if ("session".equals(checkSessionToken)){
-            httpSecurity.formLogin().successHandler(secSuccessHandler);
+            httpSecurity.formLogin().loginPage("/auth/loadPage")
+                    .loginProcessingUrl("/login")
+                    .successHandler(secSuccessHandler)
+                    .failureHandler(null)
+                    .and().logout()
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/auth/logPage");
             httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
         } else {
             httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
         }
         httpSecurity.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .antMatchers("/auth/loadPage").permitAll()
                 .antMatchers("/images/**", "/css/**", "/js/**").permitAll()
                 .antMatchers("/druid/**").permitAll()
                 .antMatchers("/swagger-ui.html").permitAll()
