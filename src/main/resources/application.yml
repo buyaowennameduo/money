@@ -31,4 +31,4 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false
-check-session-token: session
+check-session-token: token

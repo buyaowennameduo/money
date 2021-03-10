@@ -38,6 +38,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private SecAfterSessionFilter secAfterSessionFilter;
     @Resource
     private SecSuccessHandler secSuccessHandler;
+    @Resource
+    private SecAuthenticationEntryPoint secAuthenticationEntryPoint;
+    @Resource
+    private SecAccessDeniedHandler secAccessDeniedHandler;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -58,6 +62,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
         } else {
             httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER);
+            httpSecurity.exceptionHandling().authenticationEntryPoint(secAuthenticationEntryPoint)
+                    .accessDeniedHandler(secAccessDeniedHandler);
         }
         httpSecurity.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
