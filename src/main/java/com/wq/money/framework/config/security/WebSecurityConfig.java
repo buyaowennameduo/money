@@ -67,7 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         }
         httpSecurity.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers("/auth/loadPage").permitAll()
+                .antMatchers("/auth/loadPage").permitAll()  // 登陆页面
                 .antMatchers("/images/**", "/css/**", "/js/**").permitAll()
                 .antMatchers("/druid/**").permitAll()
                 .antMatchers("/swagger-ui.html").permitAll()
