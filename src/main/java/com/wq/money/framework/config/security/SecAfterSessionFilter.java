@@ -16,7 +16,6 @@ public class SecAfterSessionFilter extends OncePerRequestFilter {
     private final Logger log = LoggerFactory.getLogger(SecAfterSessionFilter.class);
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        log.info(">>>>>>>>>>:SEC后置过滤器");
         filterChain.doFilter(request,response);
     }
 }
