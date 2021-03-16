@@ -1,7 +1,6 @@
-package com.wq.money.framework.webhandle;
+package com.wq.money.framework.controller;
 
 import com.wq.money.framework.model.ReturnModel;
-import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;

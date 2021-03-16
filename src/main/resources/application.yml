@@ -41,3 +41,10 @@ jwt:
   expireTime: 1800
   route.authentication.path: /auth
   route.authentication.refresh: /refresh
+email:
+  nickName: 系统管理员
+  userName: 18210207783@163.com
+  passWord: RGTDXQRUYDQNWMBO
+  proToCol: smtp
+  host: smtp.163.com
+  port: 25

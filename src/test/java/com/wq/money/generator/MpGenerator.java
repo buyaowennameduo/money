@@ -17,9 +17,9 @@ import java.util.*;
 
 public class MpGenerator {
     //前端首页生成地址
-    private static final String DISK_JAVA = "D:\\ideaProjects";
+    private static final String DISK_JAVA = "E:\\money\\src\\main\\java";
     private static final String PARNENT = "com.wq.money";
-    private static final String MODULE_NAME = "framework";
+    private static final String MODULE_NAME = "test";
     private static final String PARNENT_PATH = "com/wq/money";
     //后端控制器以及服务生成地址/table
     private static final String AUTHOR = "王强";
@@ -87,7 +87,7 @@ public class MpGenerator {
         strategy.setInclude(include); // 需要生成的表
         strategy.setEntityColumnConstant(false);
         strategy.setEntityTableFieldAnnotationEnable(true);
-        strategy.setLogicDeleteFieldName("DEL_FLAG");
+        strategy.setLogicDeleteFieldName("del_falg");
         strategy.setTableFillList(getTableFills());
 
         mpg.setStrategy(strategy);
@@ -108,7 +108,6 @@ public class MpGenerator {
                 map.put("query", PARNENT + "." + this.getConfig().getPackageInfo().get("ModuleName") + ".bean.query");
                 map.put("vo", PARNENT + "." + this.getConfig().getPackageInfo().get("ModuleName") + ".bean.vo");
                 map.put("form", PARNENT + "." + this.getConfig().getPackageInfo().get("ModuleName") + ".bean.form");
-                map.put("dto", PARNENT + "." + this.getConfig().getPackageInfo().get("ModuleName") + ".bean.dto");
                 map.put("convert", PARNENT + "." + this.getConfig().getPackageInfo().get("ModuleName") + ".bean.convert");
                 this.setMap(map);
             }
@@ -154,22 +153,7 @@ public class MpGenerator {
                 return DISK_JAVA + "/" + PARNENT_PATH + "/" + MODULE_NAME + "/bean/convert/" + tableInfo.getEntityName() + "Convert.java";
             }
         });
-        //  自定义 Import.java生成
-        focList.add(new FileOutConfig("/templates/mybatisplus/import.java.vm") {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                // 自定义输入文件名称
-                return DISK_JAVA + "/" + PARNENT_PATH + "/" + MODULE_NAME + "/bean/dto/" + tableInfo.getEntityName() + "Import.java";
-            }
-        });
-        //  自定义 Export.java生成
-        focList.add(new FileOutConfig("/templates/mybatisplus/export.java.vm") {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                // 自定义输入文件名称
-                return DISK_JAVA + "/" + PARNENT_PATH + "/" + MODULE_NAME + "/bean/dto/" + tableInfo.getEntityName() + "Export.java";
-            }
-        });
+
         cfg.setFileOutConfigList(focList);
         mpg.setCfg(cfg);
 

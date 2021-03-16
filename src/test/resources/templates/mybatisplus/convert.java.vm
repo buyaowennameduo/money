@@ -9,8 +9,6 @@ import org.springframework.util.CollectionUtils;
 import ${package.Entity}.${entity};
 import ${cfg.form}.${entity}Form;
 import ${cfg.vo}.${entity}Vo;
-import ${cfg.dto}.${entity}Import;
-import ${cfg.dto}.${entity}Export;
 /**
  * <p>
  * ${entity}Convert工具类
@@ -60,59 +58,4 @@ public class ${entity}Convert{
         }
         return ${table.entityPath}s;
     }
-
-    /**
-    * ImportList -> PoList
-    * @param sources 对象
-    * @return Po对象
-    */
-    public static  List<${entity}> convertToPoByImport(List<${entity}Import> sources){
-        List<${entity}> ${table.entityPath}s = new ArrayList<>();
-        if (CollectionUtils.isEmpty(sources)) {
-            return ${table.entityPath}s;
-        }
-        for (${entity}Import source : sources) {
-            ${entity} target = new ${entity}();
-            BeanUtils.copyProperties(source, target);
-            ${table.entityPath}s.add(target);
-        }
-        return ${table.entityPath}s;
-    }
-
-    /**
-    * PoList -> ExportList
-    * @param sources 对象
-    * @return Export对象
-    */
-    public static  List<${entity}Export> convertToExportByPo(List<${entity}> sources){
-        List<${entity}Export> ${table.entityPath}Exports = new ArrayList<>();
-        if (CollectionUtils.isEmpty(sources)) {
-            return ${table.entityPath}Exports;
-        }
-        for (${entity} source : sources) {
-            ${entity}Export target = new ${entity}Export();
-            BeanUtils.copyProperties(source, target);
-            ${table.entityPath}Exports.add(target);
-        }
-        return ${table.entityPath}Exports;
-    }
-
-    /**
-    * VoList -> ExportList
-    * @param sources 对象
-    * @return Export对象
-    */
-    public static  List<${entity}Export> convertToExportByVo(List<${entity}Vo> sources){
-        List<${entity}Export> ${table.entityPath}Exports = new ArrayList<>();
-        if (CollectionUtils.isEmpty(sources)) {
-            return ${table.entityPath}Exports;
-        }
-        for (${entity}Vo source : sources) {
-            ${entity}Export target = new ${entity}Export();
-            BeanUtils.copyProperties(source, target);
-            ${table.entityPath}Exports.add(target);
-        }
-        return ${table.entityPath}Exports;
-    }
-
 }

@@ -1,17 +1,15 @@
 package ${package.Entity};
-
-    #foreach($pkg in ${table.importPackages})
-    import ${pkg};
-    #end
-    #if(${swagger2})
-    import io.swagger.annotations.ApiModel;
-    import io.swagger.annotations.ApiModelProperty;
-    #end
-    #if(${entityLombokModel})
-    import lombok.*;
-    #end
+#foreach($pkg in ${table.importPackages})
+import ${pkg};
+#end
+#if(${swagger2})
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+#end
+#if(${entityLombokModel})
+import lombok.*;
+#end
 import com.baomidou.mybatisplus.annotation.TableName;
-
 import java.util.Date;
 /**
  * <p>
@@ -40,16 +38,15 @@ public class ${entity} extends Model<${entity}> {
 public class ${entity} implements Serializable{
 #end
 
-private static final long serialVersionUID=1L;
+    private static final long serialVersionUID=1L;
 ## ----------  BEGIN 字段循环遍历  ----------
 #foreach($field in ${table.fields})
-
     #if(${field.keyFlag})
         #set($keyPropertyName=${field.propertyName})
     #end
     #if("$!field.comment" != "")
         #if(${swagger2})
-        @ApiModelProperty(value = "${field.comment}")
+    @ApiModelProperty(value = "${field.comment}")
         #else
         /**
          * ${field.comment}
@@ -59,38 +56,39 @@ private static final long serialVersionUID=1L;
     #if(${field.keyFlag})
     ## 主键
         #if(${field.keyIdentityFlag})
-        @TableId(value = "${field.name}", type = IdType.AUTO)
+    @TableId(value = "${field.name}", type = IdType.AUTO)
         #elseif(!$null.isNull(${idType}) && "$!idType" != "")
-        @TableId(value = "${field.name}", type = IdType.${idType})
+    @TableId(value = "${field.name}", type = IdType.${idType})
         #elseif(${field.convert})
-        @TableId("${field.name}")
+    @TableId("${field.name}")
         #end
     ## 普通字段
     #elseif(${field.fill})
     ## -----   存在字段填充设置   -----
         #if(${field.convert})
-        @TableField(value = "${field.name}", fill = FieldFill.${field.fill})
+    @TableField(value = "${field.name}", fill = FieldFill.${field.fill})
         #else
-        @TableField(fill = FieldFill.${field.fill})
+    @TableField(fill = FieldFill.${field.fill})
         #end
     #elseif(${field.convert})
     @TableField("${field.name}")
     #end
 ## 乐观锁注解
     #if(${versionFieldName}==${field.name})
-    @Version
+      @Version
     #end
 ## 逻辑删除注解
     #if(${logicDeleteFieldName}==${field.name})
-    @TableLogic
+    @TableLogic(value = "0", delval = "1")
     #end
 ## 日期
     #if(${field.propertyType}== "Date")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     #end
-private ${field.propertyType} ${field.propertyName};
+    private ${field.propertyType} ${field.propertyName};
 #end
 ## ----------  END 字段循环遍历  ----------
+
 
 
 #if(!${entityLombokModel})
@@ -101,14 +99,12 @@ private ${field.propertyType} ${field.propertyName};
             #set($getprefix="get")
         #end
 
-    public ${field.propertyType} ${getprefix}${field.capitalName}(){
-            return ${field.propertyName};
-            }
+    public ${field.propertyType} ${getprefix}${field.capitalName}(){return ${field.propertyName};}
 
         #if(${entityBuilderModel})
-        public ${entity} set${field.capitalName}(${field.propertyType} ${field.propertyName}){
+    public ${entity} set${field.capitalName}(${field.propertyType} ${field.propertyName}){
         #else
-        public void set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
+    public void set${field.capitalName}(${field.propertyType} ${field.propertyName}) {
         #end
             this.${field.propertyName} = ${field.propertyName};
         #if(${entityBuilderModel})
@@ -121,12 +117,11 @@ private ${field.propertyType} ${field.propertyName};
 #if(${entityColumnConstant})
     #foreach($field in ${table.fields})
     public static final String ${field.name.toUpperCase()} ="${field.name}" ;
-
     #end
 #end
 #if(${activeRecord})
-@Override
-protected Serializable pkVal(){
+    @Override
+    protected Serializable pkVal(){
     #if(${keyPropertyName})
             return this.${keyPropertyName};
     #else
@@ -136,8 +131,8 @@ protected Serializable pkVal(){
 
 #end
 #if(!${entityLombokModel})
-@Override
-public String toString() {
+    @Override
+    public String toString() {
         return "${entity}{" +
     #foreach($field in ${table.fields})
         #if($!{foreach.index}==0)
@@ -149,4 +144,4 @@ public String toString() {
         "}";
         }
 #end
-        }
+}
