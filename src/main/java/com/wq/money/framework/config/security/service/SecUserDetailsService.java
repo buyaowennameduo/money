@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
 
-@Service
+@Service(value = "secUserDetailService")
 public class SecUserDetailsService implements UserDetailsService {
     private static final Logger log = LoggerFactory.getLogger(SecUserDetailsService.class);
     @Resource
