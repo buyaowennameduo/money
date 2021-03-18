@@ -27,8 +27,8 @@ public class SecBeforeSessionFilter extends OncePerRequestFilter {
     private static final String JWT_PARAMETER = "xxxx";
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
-    @Resource(name = "secUserDetailService")
-    private UserDetailsService secUserDetailsService;
+    @Autowired
+    private SecUserDetailsService secUserDetailsService;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
@@ -37,7 +37,7 @@ public class SecBeforeSessionFilter extends OncePerRequestFilter {
         if (StringUtils.isBlank(requestHeader)){
             requestHeader = request.getParameter(JWT_PARAMETER);
         }
-        if (!StringUtils.isBlank(requestHeader)){
+        if (!StringUtils.isBlank(requestHeader) && request.getRequestURL().indexOf("/auth/")<0){
             // 校验 token 是否合法
             String username = jwtTokenUtil.getUserLoginFromToken(requestHeader);
             UserDetails userDetails = secUserDetailsService.loadUserByUsername(username);

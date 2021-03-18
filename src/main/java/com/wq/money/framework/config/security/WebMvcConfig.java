@@ -8,8 +8,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 public class WebMvcConfig extends WebMvcConfigurationSupport {
     @Override
     protected void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("/auth/loadPage.html");
-        registry.addViewController("/myBlog/index.html").setViewName("/myBlog/index.html");
+        registry.addViewController("/").setViewName("/myBlog/index.html");
+        registry.addViewController("/myBlog/index").setViewName("/myBlog/index.html");
+        registry.addViewController("/myBlog/about").setViewName("/myBlog/about.html");
+        registry.addViewController("/myBlog/newlist").setViewName("/myBlog/newlist.html");
+        registry.addViewController("/myBlog/share").setViewName("/myBlog/share.html");
+        registry.addViewController("/myBlog/new").setViewName("/myBlog/new.html");
     }
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
             "classpath:/META-INF/resources/", "classpath:/resources/",

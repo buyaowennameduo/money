@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 @Api(value = "用户管理", tags = {"用户管理"})
 @Controller
@@ -42,8 +43,8 @@ public class SysUserController {
     @ResponseBody
     public String getStr() throws Exception{
         //sendEmail.sendEmail(null); // 发送邮件
-        threadTest.test1();  // 线程池
-        threadTest.test2();
+        //threadTest.test1();  // 线程池
+        //threadTest.test2();
 
         return "getStr";
     }

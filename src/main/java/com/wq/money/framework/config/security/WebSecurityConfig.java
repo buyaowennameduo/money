@@ -87,7 +87,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/css/*/**","/images/*/**","/js/**","/js/*/**");
+        web.ignoring().antMatchers("/css/*/**","/images/*/**","/js/**","/js/*/**","/favicon.ico");
     }
     @Bean
     public CorsFilter corsFilter() {
