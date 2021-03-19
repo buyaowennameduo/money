@@ -28,12 +28,6 @@ public class SecAuthorizeController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    @GetMapping(value = "loadPage")
-    public String logPage(){
-        return "auth/loadPage.html";
-    }
-
-
     @PostMapping(value = "authSecurityKey")
     @ResponseBody
     public ReturnModel authSecurityKey(

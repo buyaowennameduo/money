@@ -11,9 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 @Api(value = "用户管理", tags = {"用户管理"})
 @Controller
@@ -27,16 +25,6 @@ public class SysUserController {
 
     @Resource
     private ThreadTest threadTest;
-
-    @ApiOperation(value = "测试页面", notes = "测试页面")
-    @GetMapping("index")
-    public String test(){
-        logger.debug("--debug");
-        logger.info("--info");
-        logger.warn("--warn");
-        logger.error("--error");
-        return "index.html";
-    }
 
     @ApiOperation(value = "测试数据", notes = "测试数据")
     @GetMapping("getStr")

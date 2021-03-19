@@ -1,6 +1,7 @@
 package com.wq.money.framework.controller;
 
 import com.wq.money.framework.model.ReturnModel;
+import io.swagger.annotations.Api;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
+@Api(value = "公共错误", tags = {"公共错误"})
 @Controller
 @RequestMapping("/error")
 public class MyBaseErrorController implements ErrorController {
@@ -24,7 +26,7 @@ public class MyBaseErrorController implements ErrorController {
     public Object htmlResult(HttpServletRequest request){
         HttpStatus status = getStatus(request);
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/error/"+status.value()+".html"); //这里需要在templates文件夹下新建一个/error/500.html文件用作错误页面
+        modelAndView.setViewName("error/"+status.value()+".html"); //这里需要在templates文件夹下新建一个/error/500.html文件用作错误页面
         modelAndView.addObject("errorMsg","系统错误");
         return modelAndView;
 

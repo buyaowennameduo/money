@@ -124,9 +124,9 @@ function login(){//登录
     }else{//登录
         //调用后台登录验证的方法
         $.post("/auth/authSecurityKey",{"username":username,"password":password},function(dat){
-            console.log(dat);
             if (dat.status=="SUCC"){
                 localStorage.setItem("myToken", dat.data);
+                window.location.href = "/index?xxxx="+dat.data;
             } else {
                 $.pt({
                     target: $("#login-username"),

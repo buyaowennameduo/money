@@ -1,25 +1,17 @@
 (function(){
-$.ajaxSetup({cache:false});
-// ,headers: { "Authorization": myToken }
+$.ajaxSetup({cache:false,beforeSend:commonBeforeSend});
 })();  
-
+function commonBeforeSend(r){
+    var myToken = localStorage.getItem("myToken")==null?"":localStorage.getItem("myToken");
+    r.setRequestHeader('Authorization',myToken);
+}
 hookAjax({
-    onRequest: (config, handler) => {
-        console.log(config)
-    },
     open: function (arg) {
-        var xxxx = localStorage.getItem("myToken")==null?"":localStorage.getItem("myToken");
         if (arg[1].indexOf('?') != -1) {
-            arg[1]+="&xxxx="+xxxx;
+            arg[1]+="&xxxx=";
         }else {
-            arg[1]+="?xxxx="+xxxx;
+            arg[1]+="?xxxx=";
         }
-    },
-    onload: function () {
-
-    },
-    send:function(arg){
-
     },
     onreadystatechange: function (arguments) {
         var xhr = arguments.xhr;
