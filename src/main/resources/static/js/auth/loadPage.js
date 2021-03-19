@@ -126,7 +126,7 @@ function login(){//登录
         $.post("/auth/authSecurityKey",{"username":username,"password":password},function(dat){
             if (dat.status=="SUCC"){
                 localStorage.setItem("myToken", dat.data);
-                window.location.href = "/index?xxxx="+dat.data;
+                openNewPage("/main");
             } else {
                 $.pt({
                     target: $("#login-username"),

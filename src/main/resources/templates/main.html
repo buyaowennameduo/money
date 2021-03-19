@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>layout 管理系统大布局 - Layui</title>
     <link rel="stylesheet" href="../layui/css/layui.css">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/hook.js}"></script>
+    <script th:src="@{/js/setAjaxArg.js}"></script>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -44,31 +47,34 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">所有商品</a>
+                    <a class="" href="javascript:;">北京市</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">列表一</a></dd>
-                        <dd><a href="javascript:;">列表二</a></dd>
-                        <dd><a href="javascript:;">列表三</a></dd>
-                        <dd><a href="">超链接</a></dd>
+                        <dd><a href="javascript:;">海定区</a></dd>
+                        <dd><a href="javascript:;">朝阳区</a></dd>
+                        <dd><a href="javascript:;" onclick="divLoadPage('auth/loadPage');">昌平区</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="javascript:;">解决方案</a>
+                    <a href="javascript:;">河南省</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">列表一</a></dd>
-                        <dd><a href="javascript:;">列表二</a></dd>
-                        <dd><a href="">超链接</a></dd>
+                        <dd><a href="javascript:;">郑州市</a></dd>
+                        <dd>
+                            <a href="javascript:;">安阳市</a>
+                            <dl class="layui-nav-child">
+                                <dd><a href="javascript:;">文峰区</a></dd>
+                            </dl>
+                        </dd>
+
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a href="">云市场</a></li>
-                <li class="layui-nav-item"><a href="">发布商品</a></li>
+                <li class="layui-nav-item"><a href="">天津市</a></li>
             </ul>
         </div>
     </div>
 
     <div class="layui-body">
         <!-- 内容主体区域 -->
-        <div style="padding: 15px;">内容主体区域</div>
+        <div style="padding: 15px;" id="commonContent">内容主体区域</div>
     </div>
 
     <div class="layui-footer">
@@ -81,7 +87,6 @@
     //JavaScript代码区域
     layui.use('element', function(){
         var element = layui.element;
-
     });
 </script>
 </body>

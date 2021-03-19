@@ -1,21 +1,30 @@
 package com.wq.money.framework.config.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurationSupport {
+
+    @Autowired
+    private StaticPagePathFinder staticPagePathFinder;
+
+
     @Override
     protected void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/index").setViewName("/index.html");
-        registry.addViewController("/").setViewName("/myBlog/index.html");
-        registry.addViewController("/auth/loadPage").setViewName("/auth/loadPage.html");
-        registry.addViewController("/myBlog/index").setViewName("/myBlog/index.html");
-        registry.addViewController("/myBlog/about").setViewName("/myBlog/about.html");
-        registry.addViewController("/myBlog/newlist").setViewName("/myBlog/newlist.html");
-        registry.addViewController("/myBlog/share").setViewName("/myBlog/share.html");
-        registry.addViewController("/myBlog/new").setViewName("/myBlog/new.html");
+        try{
+            for(StaticPagePathFinder.PagePaths pagePaths :staticPagePathFinder.findPath()){
+                String urlPath = pagePaths.getUrlPath();
+                String filePath = pagePaths.getFilePath();
+                registry.addViewController(urlPath).setViewName(filePath);
+            }
+        }catch(Exception e){
+
+        }
+        registry.addViewController("/").setViewName("/auth/loadPage.html");
+        registry.addViewController("/main").setViewName("/main.html");
     }
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
             "classpath:/META-INF/resources/", "classpath:/resources/",

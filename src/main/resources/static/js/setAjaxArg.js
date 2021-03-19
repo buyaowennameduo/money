@@ -1,10 +1,6 @@
 (function(){
 $.ajaxSetup({cache:false,beforeSend:commonBeforeSend});
-})();  
-function commonBeforeSend(r){
-    var myToken = localStorage.getItem("myToken")==null?"":localStorage.getItem("myToken");
-    r.setRequestHeader('Authorization',myToken);
-}
+})();
 hookAjax({
     open: function (arg) {
         if (arg[1].indexOf('?') != -1) {
@@ -33,10 +29,28 @@ hookAjax({
         }
     }
 })
+function commonBeforeSend(r){
+    var myToken = localStorage.getItem("myToken")==null?"":localStorage.getItem("myToken");
+    r.setRequestHeader('Authorization',myToken);
+}
 
-function getRootPath() {
-    var curPageUrl = window.document.location.href;
-    var rootPath = curPageUrl.split("//")[0] + curPageUrl.split("//")[1].split("/")[0]
-        + "/" + curPageUrl.split("//")[1].split("/")[1];
-    return rootPath;
+function divLoadPage(url){
+    commonLoadPage(url,1,"commonContent");
+}
+function openNewPage(url){
+    commonLoadPage(url,0,"");
+}
+function commonLoadPage(url,openType,divId){
+    var myToken = localStorage.getItem("myToken")==null?"":localStorage.getItem("myToken");
+    if (url.indexOf('?') != -1) {
+        url+="&xxxx="+myToken;
+    }else {
+        url+="?xxxx="+myToken;
+    }
+    if (openType==0){
+        window.location.href = url;
+    } else {
+        $("#"+divId).load(url);
+    }
+
 }

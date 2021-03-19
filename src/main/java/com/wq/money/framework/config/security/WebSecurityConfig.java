@@ -69,8 +69,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/").permitAll()  // 登陆页面
-                .antMatchers("/auth/loadPage").permitAll()  // 登陆页面
-                .antMatchers("/auth/loadPage.html").permitAll()  // 登陆页面
                 .antMatchers("/auth/authSecurityKey").permitAll()  // 登陆校验
                 .antMatchers("/druid/**").permitAll()
                 .antMatchers("/swagger-ui.html").permitAll()
@@ -87,7 +85,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/favicon.ico","/css/**","/images/**","/js/**","/layui/**");
+        String [] ignors = {"/favicon.ico","/css/**","/images/**","/js/**","/layui/**"};
+        web.ignoring().antMatchers(ignors);
     }
     @Bean
     public CorsFilter corsFilter() {
