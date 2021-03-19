@@ -122,8 +122,10 @@ function login(){//登录
     if(flag){
         return false;
     }else{//登录
+        layer.msg('登陆中......', {icon: 16,shade: 0.01});
         //调用后台登录验证的方法
         $.post("/auth/authSecurityKey",{"username":username,"password":password},function(dat){
+            layer.closeAll();
             if (dat.status=="SUCC"){
                 localStorage.setItem("myToken", dat.data);
                 openNewPage("/main");
