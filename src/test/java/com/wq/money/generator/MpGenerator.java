@@ -23,10 +23,7 @@ public class MpGenerator {
     private static final String PARNENT_PATH = "com/wq/money";
     //后端控制器以及服务生成地址/table
     private static final String AUTHOR = "王强";
-    private static final String[] include = {
-            "test"
-
-    };
+    private static final String[] include = {"test" };
     /**
      * <p>
      * MySQL 生成演示
@@ -80,7 +77,7 @@ public class MpGenerator {
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
         // strategy.setCapitalMode(true);// 全局大写命名 ORACLE 注意
-        strategy.setTablePrefix(new String[]{"tbl", "kpi", "examples"});// 此处可以修改为您的表前缀
+        //strategy.setTablePrefix(new String[]{"tbl", "kpi", "examples"});// 此处可以修改为您的表前缀
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
         strategy.setEntityLombokModel(true);
         strategy.setRestControllerStyle(true);

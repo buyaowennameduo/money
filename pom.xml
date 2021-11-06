@@ -56,6 +56,17 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
+        <!--工具包-->
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.4.1</version>
+        </dependency>
+
+
+
+
         <!--jwt相关包 -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
@@ -187,5 +198,4 @@
             </resource>
         </resources>
     </build>
-
 </project>
